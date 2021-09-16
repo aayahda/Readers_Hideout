@@ -1,6 +1,6 @@
 # readers_hideout
 
-A new Flutter application.
+A book review app
 
 ## Getting Started
 
