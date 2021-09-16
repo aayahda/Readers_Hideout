@@ -1,6 +1,6 @@
 # readers_hideout
 
-A book review app
+Where stories comes to life
 
 ## Getting Started
 
