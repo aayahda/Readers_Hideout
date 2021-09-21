@@ -197,39 +197,74 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemBuilder: (context, index) => ListTile(
-                        leading: Padding(
-                          padding: const EdgeInsets.all(1.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                // BoxShadow(
-                                //   color: Colors.grey,
-                                //   blurRadius: 2,
-                                //   offset: Offset(4, 8), // Shadow position
-                                // ),
-                              ],
-                            ),
-                            width: 120,
-                            height: 180,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image(
-                                image:
-                                    NetworkImage(snapshot.data[index].picture),
-                                width: 200,
-                                height: 200,
+                        title: Container(
+                          child: Row(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 2,
+                                      offset: Offset(4, 8), // Shadow position
+                                    ),
+                                  ],
+                                ),
+                                width: 120,
+                                height: 180,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  child: Image(
+                                    image: NetworkImage(
+                                        snapshot.data[index].picture),
+                                    width: 200,
+                                    height: 200,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('author'),
-                            Text('Book'),
-                            Text('rating'),
-                          ],
+                            SizedBox(width: 20.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data[index].title,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey,
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data[index].author,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                  Text(
+                                    '⭐' +
+                                        snapshot.data[index].rating.toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
                         ),
                       ),
                     );
