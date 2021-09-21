@@ -1,6 +1,6 @@
 # readers_hideout
 
-Where stories comes to life
+Where stories comes to life.
 
 ## Getting Started
 
