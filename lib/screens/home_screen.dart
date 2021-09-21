@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -13,15 +14,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<Book>> _getBooks() async {
     http.Response response = await http.get(Uri.parse(
         'https://www.googleapis.com/books/v1/volumes?q=best+inauthor:keyes&key=$apiKey'));
-    String data = response.body;
-    var decodedData = jsonDecode(data);
+    var data = response.body;
+    var decodedData = json.decode(data);
     print(decodedData);
     List<Book> books = [];
     for (var b in decodedData["items"]) {
       Book book = Book(
           b["volumeInfo"]["title"],
           b["volumeInfo"]["averageRating"],
-          b["volumeInfo"]["authors"],
+          b["volumeInfo"]["authors"][0],
           b["volumeInfo"]["imageLinks"]["thumbnail"]);
       books.add(book);
     }
@@ -88,13 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 30.0),
             ),
             SizedBox(
-                height: 200.0,
+                height: 300.0,
                 child: FutureBuilder(
                     future: _getBooks(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       print(snapshot.data);
                       return ListView.builder(
-                        itemCount: 5,
+                        itemCount: 10,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) => Container(
                           height: 100.0,
@@ -102,19 +103,70 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: EdgeInsets.all(10.0),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.grey,
+                                color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20.0))),
                             child: Column(
                               children: [
-                                // Image(
-                                //   image: NetworkImage(
-                                //       snapshot.data[index].picture),
-                                // ),
-                                Text('Image'),
-                                Text('Name'),
-                                Text('Author'),
-                                Text('Rating')
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        blurRadius: 2,
+                                        offset: Offset(4, 8), // Shadow position
+                                      ),
+                                    ],
+                                  ),
+                                  width: 120,
+                                  height: 180,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image(
+                                      image: NetworkImage(
+                                          snapshot.data[index].picture),
+                                      width: 200,
+                                      height: 200,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Text(
+                                  snapshot.data[index].title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                                Text(
+                                  snapshot.data[index].author,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                                Text(
+                                  '⭐' + snapshot.data[index].rating.toString(),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -151,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class Book {
   final String title;
-  final int rating;
+  var rating;
   final String author;
   final String picture;
 
