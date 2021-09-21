@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 30.0),
             ),
             SizedBox(
-                height: 300.0,
+                height: 311.0,
                 child: FutureBuilder(
                     future: _getBooks(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -184,15 +184,56 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                   fontSize: 30.0),
             ),
+            SizedBox(
+              height: 20.0,
+            ),
             Flexible(
-              child: ListView.builder(
-                itemCount: 10,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text('Book'),
-                ),
-              ),
+              child: FutureBuilder(
+                  future: _getBooks(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    print(snapshot.data);
+                    return ListView.builder(
+                      itemCount: 10,
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) => ListTile(
+                        leading: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                // BoxShadow(
+                                //   color: Colors.grey,
+                                //   blurRadius: 2,
+                                //   offset: Offset(4, 8), // Shadow position
+                                // ),
+                              ],
+                            ),
+                            width: 120,
+                            height: 180,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20.0),
+                              child: Image(
+                                image:
+                                    NetworkImage(snapshot.data[index].picture),
+                                width: 200,
+                                height: 200,
+                              ),
+                            ),
+                          ),
+                        ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('author'),
+                            Text('Book'),
+                            Text('rating'),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
             ),
           ],
         ),
