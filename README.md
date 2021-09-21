@@ -1,6 +1,6 @@
 # readers_hideout
 
-A new Flutter application.
+Where stories comes to life
 
 ## Getting Started
 
