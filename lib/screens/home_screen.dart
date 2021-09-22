@@ -4,6 +4,7 @@ import 'package:readers_hideout/screens/book_description.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:readers_hideout/model/book_model.dart';
+import 'search_screen.dart';
 
 const apiKey = 'AIzaSyDnKQbu3g3EYyp-Ro-hQtHNB6Gd_Mq8Mcc';
 // 'AIzaSyD2Fr6-l3j5NYat-vOsfnZu5JLy9WDDBA4';
@@ -58,6 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
+              icon: Icon(
+                Icons.search,
+                color: Colors.grey,
+                size: 30.0,
+              ))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25.0),
