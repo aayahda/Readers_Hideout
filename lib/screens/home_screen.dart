@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:readers_hideout/screens/book_description.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:readers_hideout/model/book_model.dart';
 
 const apiKey = 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
 
@@ -107,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => BookDescription()));
+                              builder: (context) =>
+                                  BookDescription(snapshot.data[index])));
                         },
                         child: Container(
                           height: 100.0,
@@ -282,7 +284,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => BookDescription()));
+                              builder: (context) =>
+                                  BookDescription(snapshot.data[index])));
                         },
                       ),
                     );
@@ -293,13 +296,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class Book {
-  final String title;
-  var rating;
-  final String author;
-  final String picture;
-
-  Book(this.title, this.rating, this.author, this.picture);
 }

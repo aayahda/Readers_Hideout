@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:readers_hideout/model/book_model.dart';
 
-class BookDescription extends StatefulWidget {
-  @override
-  _BookDescriptionState createState() => _BookDescriptionState();
-}
-
-class _BookDescriptionState extends State<BookDescription> {
+class BookDescription extends StatelessWidget {
+  final Book bookmodel;
+  BookDescription(this.bookmodel);
   Positioned myBook() {
     return Positioned(
       top: 90.0,
-      left: 130.0,
+      left: 140.0,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.orange, borderRadius: BorderRadius.circular(20.0)),
-        width: 140,
-        height: 180,
-        child: Center(child: Text('hi')),
+          borderRadius: BorderRadius.circular(20.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 2,
+              offset: Offset(4, 5), // Shadow position
+            ),
+          ],
+        ),
+        width: 120,
+        height: 190,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image(
+            image: NetworkImage(bookmodel.picture),
+            width: 200,
+            height: 200,
+          ),
+        ),
       ),
     );
   }
@@ -48,9 +61,9 @@ class _BookDescriptionState extends State<BookDescription> {
                     ),
                     child: Column(
                       children: [
-                        SizedBox(height: 100.0),
+                        SizedBox(height: 120.0),
                         Text(
-                          'Author',
+                          bookmodel.author,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
@@ -60,7 +73,8 @@ class _BookDescriptionState extends State<BookDescription> {
                         ),
                         SizedBox(height: 25.0),
                         Text(
-                          'Book Name',
+                          bookmodel.title,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
@@ -69,12 +83,12 @@ class _BookDescriptionState extends State<BookDescription> {
                           ),
                         ),
                         Text(
-                          'Rating',
+                          '⭐ ' + bookmodel.rating.toString(),
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
-                            fontSize: 15.0,
+                            fontSize: 17.0,
                           ),
                         ),
                         SizedBox(height: 35.0),
