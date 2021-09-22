@@ -111,7 +111,7 @@ class BookDescription extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w300,
                                   color: Colors.black,
                                   fontSize: 15.0,
                                 ),
