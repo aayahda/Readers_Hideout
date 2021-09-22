@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BookDescription extends StatelessWidget {
+class BookDescription extends StatefulWidget {
+  @override
+  _BookDescriptionState createState() => _BookDescriptionState();
+}
+
+class _BookDescriptionState extends State<BookDescription> {
   Positioned myBook() {
     return Positioned(
       top: 90.0,

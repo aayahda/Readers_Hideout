@@ -9,7 +9,7 @@ class ReadersHideout extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Readers Hideout',
-      home: BookDescription(),
+      home: HomeScreen(),
     );
   }
 }
