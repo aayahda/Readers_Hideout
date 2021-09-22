@@ -5,7 +5,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:readers_hideout/model/book_model.dart';
 
-const apiKey = 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
+const apiKey = 'AIzaSyDnKQbu3g3EYyp-Ro-hQtHNB6Gd_Mq8Mcc';
+// 'AIzaSyD2Fr6-l3j5NYat-vOsfnZu5JLy9WDDBA4';
+
+// 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController controller = ScrollController();
+  bool closeTopContainer = false;
   Future<List<Book>> _getBooks(String category) async {
     http.Response response = await http.get(Uri.parse(
         'https://www.googleapis.com/books/v1/volumes?q=$category+inauthor:keyes&key=$apiKey'));
@@ -38,6 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getBooks('best');
+    controller.addListener(() {
+      setState(() {
+        closeTopContainer = controller.offset > 50;
+      });
+    });
   }
 
   @override
@@ -97,106 +107,120 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.black,
                   fontSize: 30.0),
             ),
-            SizedBox(
-              height: 311.0,
-              child: FutureBuilder(
-                  future: _getBooks('best'),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    print(snapshot.data);
-                    if (snapshot.data == null) {
-                      return Center(
-                        child: Text('loading...'),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    BookDescription(snapshot.data[index])));
-                          },
-                          child: Container(
-                            height: 100.0,
-                            width: 150.0,
-                            margin: EdgeInsets.all(10.0),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              height: closeTopContainer ? 0 : 311.0,
+              child: SizedBox(
+                height: 311.0,
+                child: FutureBuilder(
+                    future: _getBooks('best'),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      print(snapshot.data);
+                      if (snapshot.data == null) {
+                        return Center(
+                          child: Text('loading...'),
+                        );
+                      } else {
+                        return ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      BookDescription(snapshot.data[index])));
+                            },
                             child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 2,
-                                          offset:
-                                              Offset(4, 6), // Shadow position
-                                        ),
-                                      ],
-                                    ),
-                                    width: 120,
-                                    height: 180,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      child: Image(
-                                        image: NetworkImage(
-                                            snapshot.data[index].picture),
-                                        width: 200,
-                                        height: 200,
+                              height: 100.0,
+                              width: 150.0,
+                              margin: EdgeInsets.all(10.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0))),
+                                child: FittedBox(
+                                  fit: BoxFit.none,
+                                  alignment: Alignment.topCenter,
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 10.0,
                                       ),
-                                    ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              blurRadius: 2,
+                                              offset: Offset(
+                                                  4, 6), // Shadow position
+                                            ),
+                                          ],
+                                        ),
+                                        width: 120,
+                                        height: 180,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: Image(
+                                            image: NetworkImage(
+                                                snapshot.data[index].picture),
+                                            width: 200,
+                                            height: 200,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
+                                      SizedBox(
+                                        width: 150,
+                                        child: Text(
+                                          snapshot.data[index].title,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data[index].author,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                          fontSize: 15.0,
+                                        ),
+                                      ),
+                                      Text(
+                                        '⭐' +
+                                            snapshot.data[index].rating
+                                                .toString(),
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black,
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                                  Text(
-                                    snapshot.data[index].title,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey,
-                                      fontSize: 12.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    snapshot.data[index].author,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
-                                  Text(
-                                    '⭐' +
-                                        snapshot.data[index].rating.toString(),
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                      fontSize: 16.0,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                  }),
+                        );
+                      }
+                    }),
+              ),
             ),
             SizedBox(
               height: 20.0,
@@ -223,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     } else {
                       return ListView.builder(
+                        controller: controller,
                         itemCount: 10,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
