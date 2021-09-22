@@ -101,6 +101,24 @@ class BookDescription extends StatelessWidget {
                             fontSize: 20.0,
                           ),
                         ),
+                        SizedBox(height: 20.0),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Container(
+                              padding: EdgeInsets.all(20.0),
+                              child: Text(
+                                bookmodel.description.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

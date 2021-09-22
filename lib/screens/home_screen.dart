@@ -25,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
           b["volumeInfo"]["title"],
           b["volumeInfo"]["averageRating"],
           b["volumeInfo"]["authors"][0],
-          b["volumeInfo"]["imageLinks"]["thumbnail"]);
+          b["volumeInfo"]["imageLinks"]["thumbnail"],
+          b["volumeInfo"]["description"]);
       books.add(book);
     }
     print(books.length);
