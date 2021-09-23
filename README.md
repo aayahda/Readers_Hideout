@@ -1,6 +1,6 @@
 # readers_hideout
 
-Where stories comes to life.
+A great eye for good books.
 
 ## Getting Started
 
