@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:readers_hideout/model/book_model.dart';
 
-const apiKey = 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
+const apiKey = 'AIzaSyDnKQbu3g3EYyp-Ro-hQtHNB6Gd_Mq8Mcc';
 
 class HomeScreen extends StatefulWidget {
   @override
