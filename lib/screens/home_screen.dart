@@ -4,12 +4,8 @@ import 'package:readers_hideout/screens/book_description.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:readers_hideout/model/book_model.dart';
-import 'search_screen.dart';
 
-const apiKey = 'AIzaSyDnKQbu3g3EYyp-Ro-hQtHNB6Gd_Mq8Mcc';
-// 'AIzaSyD2Fr6-l3j5NYat-vOsfnZu5JLy9WDDBA4';
-
-// 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
+const apiKey = 'AIzaSyA6bTNrZKQxYWT_o0YL58DqKR12H7mfjRw';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
         'https://www.googleapis.com/books/v1/volumes?q=$category+inauthor:keyes&key=$apiKey'));
     var data = response.body;
     var decodedData = json.decode(data);
-    print(decodedData);
     List<Book> books = [];
     for (var b in decodedData["items"]) {
       Book book = Book(
@@ -35,8 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
           b["volumeInfo"]["description"]);
       books.add(book);
     }
-    print(books.length);
-    print("call");
     return books;
   }
 
@@ -59,18 +52,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
-              },
-              icon: Icon(
-                Icons.search,
-                color: Colors.grey,
-                size: 30.0,
-              ))
-        ],
+        title: Center(
+          child: Text(
+            "Reader's Hideout",
+            style: TextStyle(
+              color: Colors.teal[700],
+              fontSize: 25.0,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 25.0),
@@ -78,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
             Text(
               'What are you reading today?',
@@ -128,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: FutureBuilder(
                     future: _getBooks('best'),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      print(snapshot.data);
                       if (snapshot.data == null) {
                         return Center(
                           child: Text('loading...'),
@@ -153,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(20.0))),
                                 child: FittedBox(
-                                  fit: BoxFit.none,
+                                  fit: BoxFit.fitWidth,
                                   alignment: Alignment.topCenter,
                                   child: Column(
                                     children: [
@@ -167,9 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           boxShadow: [
                                             BoxShadow(
                                               color: Colors.grey,
-                                              blurRadius: 2,
+                                              blurRadius: 7,
                                               offset: Offset(
-                                                  4, 6), // Shadow position
+                                                  3, 5), // Shadow position
                                             ),
                                           ],
                                         ),
@@ -253,7 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: FutureBuilder(
                   future: _getBooks('trending'),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    print(snapshot.data);
                     if (snapshot.data == null) {
                       return Center(
                         child: Text('loading...'),
@@ -275,8 +263,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey,
-                                        blurRadius: 2,
-                                        offset: Offset(4, 6), // Shadow position
+                                        blurRadius: 7,
+                                        offset: Offset(3, 5), // Shadow position
                                       ),
                                     ],
                                   ),
@@ -284,11 +272,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 180,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    child: Image(
-                                      image: NetworkImage(
-                                          snapshot.data[index].picture),
-                                      width: 200,
-                                      height: 200,
+                                    child: FittedBox(
+                                      fit: BoxFit.none,
+                                      child: Image(
+                                        image: NetworkImage(
+                                            snapshot.data[index].picture),
+                                        width: 200,
+                                        height: 200,
+                                      ),
                                     ),
                                   ),
                                 ),
